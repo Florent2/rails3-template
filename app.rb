@@ -2,47 +2,23 @@
 #  http://github.com/rails/rails/blob/master/railties/lib/rails/generators/actions.rb
 #  http://rdoc.info/rdoc/wycats/thor/blob/f939a3e8a854616784cac1dcff04ef4f3ee5f7ff/Thor/Actions.html
 
-if yes?("create rvm gemset?")
-  rvmrc = <<-RVMRC
-  rvm_gemset_create_on_use_flag=1
-  rvm gemset use #{app_name}
-  RVMRC
-  
-  create_file ".rvmrc", rvmrc
-end
-
 remove_file "public/index.html"
 remove_file "public/favicon.ico"
 remove_file "public/images/rails.png"
 
-empty_directory "lib/generators"
-git :clone => "--depth 0 http://github.com/Florent2/rails3-template.git lib/generators"
-remove_dir "lib/generators/.git"
-
-run "cp config/database.yml config/database.yml.example"
-append_file '.gitignore',
-%q{config/database.yml
-spec/views
-spec/controllers
-spec/requests"
-}
-
-gem "haml", ">= 3.0.0.rc.4"
-gem 'nifty-generators', :group => :development
-gem 'faker', :group => [:development, :test]
-gem 'machinist', :group => :test
-gem 'faker', :group => :test
-gem "rspec-rails", ">= 2.0.0.beta.8", :group => [:test, :cucumber]
-gem 'cucumber', :group => :cucumber
-gem 'cucumber-rails', :group => :cucumber 
-gem 'launchy', :group => :cucumber
-gem 'machinist', :group => :cucumber
-gem 'pickle', :git => 'git://github.com/codegram/pickle.git', :group => :cucumber
-gem 'faker', :group => :cucumber
-gem 'capybara', :group => :cucumber
-gem 'database_cleaner', :group => :cucumber
- 
-generate :nifty_layout if yes?("Generate nifty_layout?")
+gem "haml"
+gem 'haml-rails'
+gem 'annotate',                         :group => :development
+gem 'faker',                            :group => [:development, :test]
+gem 'machinist',                        :group => [:development, :test, :cucumber]
+gem "rspec-rails", ">= 2.0.0.beta.20",  :group => [:test, :cucumber]
+gem 'database_cleaner',                 :group => [:test, :cucumber]
+gem 'webmock',                          :group => [:test, :cucumber]
+gem 'shoulda',                          :group => :test
+gem 'cucumber',                         :group => :cucumber
+gem 'cucumber-rails',                   :group => :cucumber 
+gem 'launchy',                          :group => :cucumber
+gem 'capybara',                         :group => :cucumber
 
 generators = <<-GENERATORS
 
@@ -71,7 +47,7 @@ layout = <<-LAYOUT
   %head
     %title #{app_name.humanize}
     = stylesheet_link_tag :all
-    = javascript_include_tag :jquery
+    = javascript_include_tag :defaults
     = csrf_meta_tag
   %body
     = yield
@@ -85,7 +61,6 @@ run "bundle install"
 
 generate "rspec:install" 
 generate "cucumber:skeleton" " --rspec --capybara"
-#generate 'pickle' # not working
 
 remove_file "db/seeds.rb"
 create_file "db/seeds.rb", "require Rails.root.join('spec').join('blueprints')"
@@ -108,6 +83,21 @@ inject_into_file "features/support/env.rb", :after => "if defined?(ActiveRecord:
 }  
 end
 
+run "cp config/database.yml config/database.yml.example"
+rake "db:create"
+
+append_file '.gitignore',
+%q{config/database.yml
+spec/views
+spec/controllers
+spec/requests"
+log/
+tmp/
+db/schema.rb
+.iterm-rails.config
+.rvmrc
+.DS_Store
+}
 git :init
 git :add => "."
 git :commit => "-a -m 'initial commit'"
