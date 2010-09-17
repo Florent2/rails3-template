@@ -8,17 +8,18 @@ remove_file "public/images/rails.png"
 
 gem "haml"
 gem 'haml-rails'
-gem 'annotate',                         :group => :development
-gem 'faker',                            :group => [:development, :test]
-gem 'machinist',                        :group => [:development, :test, :cucumber]
-gem "rspec-rails", ">= 2.0.0.beta.20",  :group => [:test, :cucumber]
-gem 'database_cleaner',                 :group => [:test, :cucumber]
-gem 'webmock',                          :group => [:test, :cucumber]
-gem 'shoulda',                          :group => :test
-gem 'cucumber',                         :group => :cucumber
-gem 'cucumber-rails',                   :group => :cucumber 
-gem 'launchy',                          :group => :cucumber
-gem 'capybara',                         :group => :cucumber
+gem 'annotate',                                               :group => :development
+gem 'faker',                                                  :group => [:development, :test]
+gem 'machinist',                                              :group => [:development, :test, :cucumber]
+gem "rspec-rails", ">= 2.0.0.beta.20",                        :group => [:test, :cucumber]
+gem 'database_cleaner',                                       :group => [:test, :cucumber]
+gem 'webmock',                                                :group => [:test, :cucumber]
+gem 'spork', :git => "git://github.com/timcharper/spork.git", :group => [:test, :cucumber]
+gem 'shoulda',                                                :group => :test
+gem 'cucumber',                                               :group => :cucumber
+gem 'cucumber-rails',                                         :group => :cucumber 
+gem 'launchy',                                                :group => :cucumber
+gem 'capybara',                                               :group => :cucumber
 
 generators = <<-GENERATORS
 
@@ -35,12 +36,7 @@ get "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "pub
 remove_file "public/javascripts/rails.js"
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
 
-jquery = <<-JQUERY
-ActionView::Helpers::AssetTagHelper.register_javascript_expansion \
-  :jquery => %w(jquery jquery-ui rails)
-JQUERY
-
-initializer "jquery.rb", jquery
+gsub_file 'config/application.rb', 'config.action_view.javascript_expansions[:defaults] = %w()', 'config.action_view.javascript_expansions[:defaults] = %w(jquery.js jquery-ui.js rails.js)'
 
 layout = <<-LAYOUT
 !!!
@@ -61,7 +57,7 @@ run "gem install bundler"
 run "bundle install"
 
 generate "rspec:install" 
-generate "cucumber:install" " --rspec --capybara"
+generate "cucumber:install" " --spork --rspec --capybara"
 
 remove_file "db/seeds.rb"
 create_file "db/seeds.rb", "require Rails.root.join('spec').join('blueprints')"
