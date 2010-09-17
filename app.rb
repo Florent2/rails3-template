@@ -81,7 +81,6 @@ inject_into_file "features/support/env.rb", :after => "if defined?(ActiveRecord:
 end
 
 run "cp config/database.yml config/database.yml.example"
-rake "db:create"
 
 append_file '.gitignore',
 %q{config/database.yml
