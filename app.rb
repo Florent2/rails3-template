@@ -60,7 +60,7 @@ run "gem install bundler"
 run "bundle install"
 
 generate "rspec:install" 
-generate "cucumber:skeleton" " --rspec --capybara"
+generate "cucumber:install" " --rspec --capybara"
 
 remove_file "db/seeds.rb"
 create_file "db/seeds.rb", "require Rails.root.join('spec').join('blueprints')"
