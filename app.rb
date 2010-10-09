@@ -8,6 +8,7 @@ remove_file "public/images/rails.png"
 
 gem "haml"
 gem 'haml-rails'
+gem "jquery-rails"
 gem 'annotate',                                               :group => :development
 gem 'faker',                                                  :group => [:development, :test]
 gem 'machinist',                                              :group => [:development, :test, :cucumber]
@@ -31,13 +32,6 @@ GENERATORS
 
 application generators
 
-get "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js",  "public/javascripts/jquery.js"
-get "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js", "public/javascripts/jquery-ui.js"
-remove_file "public/javascripts/rails.js"
-get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
-
-gsub_file 'config/application.rb', 'config.action_view.javascript_expansions[:defaults] = %w()', 'config.action_view.javascript_expansions[:defaults] = %w(jquery jquery-ui rails application)'
-
 layout = <<-LAYOUT
 !!!
 %html
@@ -55,6 +49,9 @@ create_file "app/views/layouts/application.html.haml", layout
 
 run "gem install bundler"
 run "bundle install"
+
+remove_file "public/javascripts/rails.js"
+generate "jquery:install"
 
 generate "rspec:install" 
 generate "cucumber:install" " --spork --rspec --capybara"
