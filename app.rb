@@ -90,6 +90,9 @@ db/schema.rb
 .iterm-rails.config
 .rvmrc
 .DS_Store
+spec/helpers
+spec/routing
+spec/requests
 }
 git :init
 git :add => "."
