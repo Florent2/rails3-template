@@ -16,6 +16,10 @@ gem "rspec-rails", ">= 2.0.1",                                :group => [:develo
 gem 'database_cleaner',                                       :group => [:test, :cucumber]
 gem 'webmock',                                                :group => [:test, :cucumber]
 gem 'spork', :git => "git://github.com/timcharper/spork.git", :group => [:test, :cucumber]
+gem 'autotest',                                               :group => [:test, :cucumber]
+gem 'autotest-rails-pure',                                    :group => [:test, :cucumber]
+gem 'autotest-growl',                                         :group => [:test, :cucumber]
+gem 'autotest-fsevent',                                       :group => [:test, :cucumber]
 gem 'shoulda',                                                :group => :test
 gem 'cucumber',                                               :group => :cucumber
 gem 'cucumber-rails',                                         :group => :cucumber 
