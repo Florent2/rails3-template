@@ -12,7 +12,7 @@ gem "jquery-rails"
 gem 'annotate',                                               :group => :development
 gem 'faker',                                                  :group => [:development, :test]
 gem 'machinist',                                              :group => [:development, :test, :cucumber]
-gem "rspec-rails", ">= 2.0.0.beta.20",                        :group => [:test, :cucumber]
+gem "rspec-rails", ">= 2.0.1",                                :group => [:development, :test, :cucumber]
 gem 'database_cleaner',                                       :group => [:test, :cucumber]
 gem 'webmock',                                                :group => [:test, :cucumber]
 gem 'spork', :git => "git://github.com/timcharper/spork.git", :group => [:test, :cucumber]
@@ -64,7 +64,7 @@ require 'sham'
 }
 
 inject_into_file "spec/spec_helper.rb", "require Rails.root.join('spec').join('blueprints')\n", :after => "require 'rspec/rails'\n"
-inject_into_file "spec/spec_helper.rb", :after => "Rspec.configure do |config|\n" do
+inject_into_file "spec/spec_helper.rb", :after => "RSpec.configure do |config|\n" do
 %q{  config.before(:all)  { Sham.reset(:before_all) }
   config.before(:each) { Sham.reset(:before_each) }  
   
