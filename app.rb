@@ -33,6 +33,7 @@ generators = <<-GENERATORS
       g.template_engine :haml
       g.test_framework :rspec, :fixture => true, :views => false
       g.integration_tool :rspec, :fixture => true, :views => true      
+      g.helper false
     end
 GENERATORS
 
