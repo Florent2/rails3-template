@@ -11,6 +11,7 @@ gem 'haml-rails'
 gem "jquery-rails"
 gem "validates_lengths_from_database"
 gem "attribute_normalizer"
+gem "message_block"
 gem 'annotate',                 :group => :development
 gem 'migrate-well',             :group => :development
 gem 'autorefresh',              :group => :development
@@ -77,6 +78,8 @@ generate "rspec:install"
 create_file 'spec/spec.opts', "--drb\n-f Fuubar"
 
 run "cp config/database.yml config/database.yml.example"
+
+rake "message_block:install"
 
 rake "db:create"
 
