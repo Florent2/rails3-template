@@ -34,6 +34,7 @@ plugin 'rails-dev-boost', :git => "git://github.com/thedarkone/rails-dev-boost"
 generators = <<-GENERATORS
 
     config.generators do |g|
+      g.stylesheets false      
       g.template_engine :haml
       g.test_framework :rspec, :fixture => true, :views => false
       g.integration_tool :rspec, :fixture => true, :views => true      
