@@ -6,30 +6,46 @@ remove_file "public/index.html"
 remove_file "public/favicon.ico"
 remove_file "public/images/rails.png"
 
+gems = <<-GEMS
+
 gem "haml"
 gem 'haml-rails'
 gem "jquery-rails"
 gem "validates_lengths_from_database"
 gem "attribute_normalizer"
 gem "message_block"
-gem 'annotate',                 :group => :development
-gem 'migrate-well',             :group => :development
-gem 'autorefresh',              :group => :development
-gem 'fabrication',              :group => [:development, :test]
-gem 'capybara',                 :group => [:development, :test], :git => "git://github.com/Florent2/capybara"
-gem "rspec-rails",              :group => [:development, :test]
-gem 'database_cleaner',         :group => :test
-gem 'webmock',                  :group => :test
-gem 'spork',                    :group => :test
-gem 'autotest',                 :group => :test
-gem 'autotest-rails-pure',      :group => :test
-gem 'autotest-growl',           :group => :test
-gem 'autotest-fsevent',         :group => :test
-gem 'shoulda',                  :group => :test
-gem 'fuubar',                   :group => :test
-gem 'launchy',                  :group => :test
 
-plugin 'rails-dev-boost', :git => "git://github.com/thedarkone/rails-dev-boost"
+group :development do
+  gem 'annotate'
+  gem 'migrate-well'
+  gem 'autorefresh'
+  gem "rspec-rails"  
+  gem 'fabrication'
+  gem 'capybara', :git => "git://github.com/Florent2/capybara"
+  gem "rails-dev-boost", :git => "git://github.com/thedarkone/rails-dev-boost.git", :require => "rails_development_boost"  
+end
+
+group :test do
+  gem "rspec-rails"               
+  gem 'fabrication'             
+  gem 'capybara', :git => "git://github.com/Florent2/capybara"
+  gem 'database_cleaner'
+  gem 'webmock'         
+  gem 'spork'                  
+  gem 'autotest'
+  gem 'autotest-rails-pure'
+  gem 'autotest-growl'      
+  gem 'autotest-fsevent'
+  gem 'shoulda'         
+  gem 'fuubar'                  
+  gem 'launchy'
+end
+GEMS
+
+gsub_file "Gemfile", /#.+/, ""
+gsub_file "Gemfile", /^\W/, ""
+append_to_file "Gemfile", gems
+
 
 generators = <<-GENERATORS
 
@@ -41,7 +57,6 @@ generators = <<-GENERATORS
       g.helper false
     end
 GENERATORS
-
 application generators
 
 gsub_file 'config/application.rb', 'config.filter_parameters += [:password]', 'config.filter_parameters += [:password, :password_confirmation]'
