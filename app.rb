@@ -15,8 +15,7 @@ gem 'annotate',                 :group => :development
 gem 'migrate-well',             :group => :development
 gem 'autorefresh',              :group => :development
 gem 'fabrication',              :group => [:development, :test]
-gem 'capybara',                 :group => [:development, :test]
-gem 'steak',                    :group => [:development, :test]
+gem 'capybara',                 :group => [:development, :test], :git => "git://github.com/Florent2/capybara"
 gem "rspec-rails",              :group => [:development, :test]
 gem 'database_cleaner',         :group => :test
 gem 'webmock',                  :group => :test
@@ -76,7 +75,6 @@ generate "jquery:install"
 
 generate "rspec:install" 
 append_to_file '.rspec', "--drb\n-f Fuubar"
-generate "steak:install"
 
 run "cp config/database.yml config/database.yml.example"
 
