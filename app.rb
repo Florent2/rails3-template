@@ -12,6 +12,7 @@ gem "jquery-rails"
 gem "validates_lengths_from_database"
 gem "attribute_normalizer"
 gem 'annotate',                 :group => :development
+gem 'migrate-well',             :group => :development
 gem 'fabrication',              :group => [:development, :test]
 gem 'capybara',                 :group => [:development, :test]
 gem 'steak',                    :group => [:development, :test]
