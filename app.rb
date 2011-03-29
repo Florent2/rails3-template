@@ -74,7 +74,7 @@ remove_file "public/javascripts/rails.js"
 generate "jquery:install"
 
 generate "rspec:install" 
-append_to_file '.rspec', "--drb\n-f Fuubar"
+create_file 'spec/spec.opts', "--drb\n-f Fuubar"
 
 run "cp config/database.yml config/database.yml.example"
 
