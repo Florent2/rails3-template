@@ -13,6 +13,7 @@ gem "validates_lengths_from_database"
 gem "attribute_normalizer"
 gem 'annotate',                 :group => :development
 gem 'migrate-well',             :group => :development
+gem 'autorefresh',              :group => :development
 gem 'fabrication',              :group => [:development, :test]
 gem 'capybara',                 :group => [:development, :test]
 gem 'steak',                    :group => [:development, :test]
@@ -51,6 +52,9 @@ layout = <<-LAYOUT
     %title #{app_name.humanize}
     = stylesheet_link_tag :all
     = csrf_meta_tag
+    - if Rails.env.development?
+      :erb
+        <%= AutoRefresh.channel '#{app_name.humanize}' %>
   %body
     = yield
     = javascript_include_tag :defaults    
@@ -58,6 +62,11 @@ LAYOUT
 
 remove_file "app/views/layouts/application.html.erb"
 create_file "app/views/layouts/application.html.haml", layout
+
+watchr = <<-WATCHR
+  watch( 'public/stylesheets/.*\.css' ) { |m| system('autorefresh #{app_name.humanize}') }
+WATCHR
+create_file ".watchr", watchr
 
 run "gem install bundler"
 run "bundle install"
