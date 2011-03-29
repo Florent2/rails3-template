@@ -34,7 +34,6 @@ plugin 'rails-dev-boost', :git => "git://github.com/thedarkone/rails-dev-boost"
 generators = <<-GENERATORS
 
     config.generators do |g|
-      g.stylesheets false      
       g.template_engine :haml
       g.test_framework :rspec, :fixture => true, :views => false
       g.integration_tool :rspec, :fixture => true, :views => true      
@@ -57,6 +56,7 @@ layout = <<-LAYOUT
       :erb
         <%= AutoRefresh.channel '#{app_name.humanize}' %>
   %body
+    = message_block  
     = yield
     = javascript_include_tag :defaults    
 LAYOUT
