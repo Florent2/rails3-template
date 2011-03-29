@@ -78,6 +78,8 @@ create_file 'spec/spec.opts', "--drb\n-f Fuubar"
 
 run "cp config/database.yml config/database.yml.example"
 
+rake "db:create"
+
 append_file '.gitignore',
 %q{config/database.yml
 spec/views
