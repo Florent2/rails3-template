@@ -9,28 +9,30 @@ remove_file "public/images/rails.png"
 gem "haml"
 gem 'haml-rails'
 gem "jquery-rails"
-gem 'annotate',                                               :group => :development
-gem 'faker',                                                  :group => [:development, :test]
-gem 'machinist',                                              :group => [:development, :test, :cucumber]
-gem "rspec-rails", ">= 2.0.1",                                :group => [:development, :test, :cucumber]
-gem 'database_cleaner',                                       :group => [:test, :cucumber]
-gem 'webmock',                                                :group => [:test, :cucumber]
-gem 'spork', :git => "git://github.com/timcharper/spork.git", :group => [:test, :cucumber]
-gem 'autotest',                                               :group => [:test, :cucumber]
-gem 'autotest-rails-pure',                                    :group => [:test, :cucumber]
-gem 'autotest-growl',                                         :group => [:test, :cucumber]
-gem 'autotest-fsevent',                                       :group => [:test, :cucumber]
-gem 'shoulda',                                                :group => :test
-gem 'cucumber',                                               :group => :cucumber
-gem 'cucumber-rails',                                         :group => :cucumber 
-gem 'launchy',                                                :group => :cucumber
-gem 'capybara',                                               :group => :cucumber
+gem "validates_lengths_from_database"
+gem "attribute_normalizer"
+gem 'annotate',                 :group => :development
+gem 'fabrication',              :group => [:development, :test]
+gem 'capybara',                 :group => [:development, :test]
+gem 'steak',                    :group => [:development, :test]
+gem "rspec-rails", ">= 2.2.1",  :group => [:development, :test]
+gem 'database_cleaner',         :group => :test
+gem 'webmock',                  :group => :test
+gem 'spork',                    :group => :test
+gem 'autotest',                 :group => :test
+gem 'autotest-rails-pure',      :group => :test
+gem 'autotest-growl',           :group => :test
+gem 'autotest-fsevent',         :group => :test
+gem 'shoulda',                  :group => :test
+gem 'fuubar',                   :group => :test
+gem 'launchy',                  :group => :test
 
 generators = <<-GENERATORS
 
     config.generators do |g|
       g.template_engine :haml
-      g.test_framework :rspec, :fixture => false, :views => false
+      g.test_framework :rspec, :fixture => true, :views => false
+      g.integration_tool :rspec, :fixture => true, :views => true      
     end
 GENERATORS
 
@@ -58,28 +60,8 @@ remove_file "public/javascripts/rails.js"
 generate "jquery:install"
 
 generate "rspec:install" 
-generate "cucumber:install" " --spork --rspec --capybara"
-
-remove_file "db/seeds.rb"
-create_file "db/seeds.rb", "require Rails.root.join('spec').join('blueprints')"
-create_file 'spec/blueprints.rb',
-%q{require 'machinist/active_record'
-require 'sham'  
-}
-
-inject_into_file "spec/spec_helper.rb", "require Rails.root.join('spec').join('blueprints')\n", :after => "require 'rspec/rails'\n"
-inject_into_file "spec/spec_helper.rb", :after => "RSpec.configure do |config|\n" do
-%q{  config.before(:all)  { Sham.reset(:before_all) }
-  config.before(:each) { Sham.reset(:before_each) }  
-  
-}
-end
-inject_into_file "features/support/env.rb", :after => "if defined?(ActiveRecord::Base)\n" do
-%q{  require Rails.root.join('spec').join('blueprints')
-  Before { Sham.reset } # reset Shams in between scenarios
-    
-}  
-end
+append_to_file '.rspec', "--drb\n-f Fuubar"
+generate "steak:install"
 
 run "cp config/database.yml config/database.yml.example"
 
