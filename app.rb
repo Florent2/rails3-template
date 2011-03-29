@@ -27,6 +27,8 @@ gem 'shoulda',                  :group => :test
 gem 'fuubar',                   :group => :test
 gem 'launchy',                  :group => :test
 
+plugin 'rails-dev-boost', :git => "git://github.com/thedarkone/rails-dev-boost"
+
 generators = <<-GENERATORS
 
     config.generators do |g|
