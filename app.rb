@@ -14,6 +14,7 @@ gem "jquery-rails"
 gem "validates_lengths_from_database"
 gem "attribute_normalizer"
 gem "message_block"
+gem "active_sanity"
 
 group :development do
   gem 'annotate'
