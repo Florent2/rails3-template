@@ -1,3 +1,5 @@
+**I no longer maintain this project, see [rails4_blank_app](https://github.com/Florent2/rails4_blank_app) for a successor.**
+
 Rails 3, RSpec, Cucumber, Haml, and jQuery
 ==============================================
 
